@@ -1,0 +1,11 @@
+Bleu:0.02
+Rouge:0.04
+Vert:0.06
+Orange:0.08
+Marron:0.1
+Jaune:0.12
+Rose:0.14
+Violet:0.16
+Noir:0.18
+Gris:0.20
+Blanc:0.22
