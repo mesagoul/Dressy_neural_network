@@ -1,7 +1,3 @@
 Coton:0.02
 Soie:0.04
 Lin:0.06
-Cuir:0.08
-Laine:0.1
-Matières-synthétiques:0.12
-Jean:0.14

@@ -19,21 +19,21 @@
     $this->desired_error = $desired_error;
     $this->max_epochs = $max_epochs;
     $this->epochs_between_reports = $epochs_between_reports;
-    $this->$ann = fann_create_standard($num_layers, $num_input, $num_neurons_hidden, $num_output );
+    $this->ann = fann_create_standard($num_layers, $num_input, $num_neurons_hidden, $num_output );
   }
 
 
   function train(){
 
     if ($this->ann) {
-        fann_set_activation_function_hidden($ann, FANN_SIGMOID_SYMMETRIC);
-        fann_set_activation_function_output($ann, FANN_SIGMOID_SYMMETRIC);
+        fann_set_activation_function_hidden($this->ann, FANN_SIGMOID_SYMMETRIC);
+        fann_set_activation_function_output($this->ann, FANN_SIGMOID_SYMMETRIC);
         $filename = dirname(__FILE__) . "/../datas.data";
 
-        if (fann_train_on_file($ann, $filename, $this->max_epochs, $this->epochs_between_reports, $this->desired_error)){
-          fann_save($ann, dirname(__FILE__) ."/../response.data");
+        if (fann_train_on_file($this->ann, $filename, $this->max_epochs, $this->epochs_between_reports, $this->desired_error)){
+          fann_save($this->ann, dirname(__FILE__) ."/../response.data");
         }
-        fann_destroy($ann);
+        fann_destroy($this->ann);
     }
   }
 
@@ -46,13 +46,13 @@
     $valueMaterial = 0.02 ;
     $valueColor = 0.02;
 
-    if ($ann) {
+    if ($this->ann) {
             $input = array($valueType,$valueMaterial,$valueColor);
             $calc_out = fann_run($ann, $input);
             echo $calc_out[0]."<br>";
             echo $calc_out[1]."<br>";
             echo $calc_out[2];
-            fann_destroy($ann);
+            fann_destroy($this->ann);
     } else {
             die("Invalid file format" . PHP_EOL);
     }
