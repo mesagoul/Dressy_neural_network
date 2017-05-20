@@ -3,3 +3,11 @@ teeshirt:0.04
 pull:0.06
 débardeur:0.08
 blouse:0.1
+manteau:0.12
+topCourt:0.14
+K-Way:0.16
+robe:0.18
+jupe:0.2
+pantalon:0.22
+short:0.24
+slim:0.26

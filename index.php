@@ -1,6 +1,7 @@
 
 <?php
 
+error_reporting(E_ALL & ~E_NOTICE);
 
  include "./Models/Network.php";
  include "./Models/Prepare.php";
@@ -18,14 +19,19 @@ if(isset($_GET["use"]) && !empty($_GET["use"])){
 
 
 function train(){
-   $fann = new Network(3,3,3,3,0.00001,500000,1000);
+   $fann = new Network();
    $fann->train();
 }
 
 function useFann(){
 
-   $fann = new Network(3,3,3,3,0.00001,500000,1000);
-   $fann->use();
+  $type = $_GET["type"];
+  $material = $_GET["material"];
+  $color = $_GET["color"];
+
+   $fann = new Network();
+   var_dump($fann->use($type,$material,$color));
+
 
 }
 

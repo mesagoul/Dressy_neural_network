@@ -1,7 +1,6 @@
 <?php
 
- class Network{
-
+class Network{
   private $num_input;
   private $num_output;
   private $num_layers;
@@ -11,19 +10,22 @@
   private $epochs_between_reports;
   private $ann;
 
-  function network($num_input,$num_output,$num_layers,$num_neurons_hidden,$desired_error,$max_epochs,$epochs_between_reports){
-    $this->num_input = $num_input;
-    $this->num_output = $num_output;
-    $this->num_layers = $num_layers;
-    $this->num_neurons_hidden = $num_neurons_hidden;
-    $this->desired_error = $desired_error;
-    $this->max_epochs = $max_epochs;
-    $this->epochs_between_reports = $epochs_between_reports;
-    $this->ann = fann_create_standard($num_layers, $num_input, $num_neurons_hidden, $num_output );
+
+  function __construct(){
+    $prepare = new Prepare();
+
+    $this->num_input = $prepare->getCountInputs();
+    $this->num_output = $prepare->getCountOutputs();
+    $this->num_layers = 3;
+    $this->num_neurons_hidden = $prepare->getCountInputs()*2;
+    $this->desired_error = 0.00001;
+    $this->max_epochs = 50000;
+    $this->epochs_between_reports = 1000;
   }
 
 
   function train(){
+    $this->ann = fann_create_standard($this->num_layers, $this->num_input, $this->num_neurons_hidden, $this->num_output );
 
     if ($this->ann) {
         fann_set_activation_function_hidden($this->ann, FANN_SIGMOID_SYMMETRIC);
@@ -37,25 +39,30 @@
     }
   }
 
-  function use(){
+  function use($type = "", $material = "", $color = ""){
+    $prepare = new Prepare();
+
+    $valueType =  explode(" ", $prepare->getVector("type",$type));
+    $valueMaterial = explode(" ", $prepare->getVector("material",$material));
+    $valueColor = explode(" ", $prepare->getVector("color",$color));
+    //$valueColor = array($color);
+
+
     $train_file = (dirname(__FILE__) . "/../response.data");
     if (!is_file($train_file))
             die("The file response.data has not been created! Please run train.php to generate it" . PHP_EOL);
-    $ann = fann_create_from_file($train_file);
-    $valueType = 0.02;
-    $valueMaterial = 0.02 ;
-    $valueColor = 0.02;
+    $trainedAnn = fann_create_from_file($train_file);
 
-    if ($this->ann) {
-            $input = array($valueType,$valueMaterial,$valueColor);
-            $calc_out = fann_run($ann, $input);
-            echo $calc_out[0]."<br>";
-            echo $calc_out[1]."<br>";
-            echo $calc_out[2];
-            fann_destroy($this->ann);
+
+
+    if ($trainedAnn) {
+            $input = array_merge($valueType,$valueMaterial,$valueColor);
+            $calc_out = fann_run($trainedAnn, $input);
+            fann_destroy($trainedAnn);
+            return $prepare->vectorToFannIds($calc_out);
     } else {
             die("Invalid file format" . PHP_EOL);
     }
-
+    return -1;
   }
 }
