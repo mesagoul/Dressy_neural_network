@@ -17,8 +17,8 @@ class Network{
     $this->num_input = $prepare->getCountInputs();
     $this->num_output = $prepare->getCountOutputs();
     $this->num_layers = 3;
-    $this->num_neurons_hidden = $prepare->getCountInputs()*2;
-    $this->desired_error = 0.00001;
+    $this->num_neurons_hidden = $prepare->getCountInputs()*1.5;
+    $this->desired_error = 0.0001;
     $this->max_epochs = 50000;
     $this->epochs_between_reports = 1000;
   }

@@ -17,9 +17,9 @@ class Prepare{
 
    function __construct(){
      // get data from configs files and save them into tabs
-     $this->types = file("./Structure/type.txt");
-     $this->matieres = file("./Structure/matiere.txt");
-     $this->colors = file("./Structure/colors.txt");
+     $this->types = file(dirname(__FILE__)."/../Structure/type.txt");
+     $this->matieres = file(dirname(__FILE__)."/../Structure/matiere.txt");
+     $this->colors = file(dirname(__FILE__)."/../Structure/colors.txt");
 
      // get size of each data tab
      $this->nbTypes = count($this->types);
